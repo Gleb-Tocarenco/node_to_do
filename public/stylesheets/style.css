@@ -1,0 +1,58 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.title-active .task-input-edit {
+  display: none
+}
+
+.title-active .task-name {
+  display: initial
+}
+
+.input-active .task-input-edit {
+  display: initial
+}
+
+.input-active .task-name {
+  display: none
+}
+
+
+.task .task-delete {
+  display: none;
+}
+
+.task.task-focus .task-delete {
+  display: initial;
+}
+
+.task.task-done .task-check {
+  display: none;
+}
+
+.task.task-done .task-uncheck {
+  display: initial;
+}
+
+.task.task-not-done .task-check {
+  display: inline;
+}
+
+.task.task-not-done .task-uncheck {
+  display: none;
+}
+
+.task.task-done .task-name {
+  text-decoration: line-through;
+}

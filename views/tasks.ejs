@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partials/header %>
+</head>
+<body>
+    <h3>List of your tasks</h1>
+    <ul>
+        <% tasks.forEach((t, index) => { %>
+            <li class="task title-active 
+            <% if (t.done) { %>
+                task-done
+            <% }%>  
+            <% if (!t.done) { %>
+                task-not-done
+            <% }%> 
+            " data-id="<%= t.id %>">
+                <div class='item'>
+                    <i class="far fa-square task-check"></i>
+                    <i class="far fa-check-square task-uncheck"></i>
+                    <span class="task-name"> 
+                        <%= t.title %>
+                    </span>
+                    <input class="task-input-edit" type="text" value="<%= t.title %>">
+                    <i class="far fa-trash-alt task-delete"></i>
+                </div>
+            </li>
+            <%})
+        %>
+    </ul>
+    <h4>
+        New task
+    </h2>
+    <div>
+        <input type="text" name="task-title" id="task-input">
+        <button id="task-send">Create</button>
+    </div>
+    <% include ./partials/footer %>
+</body>
+</html>
