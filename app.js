@@ -4,18 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var app = express();
+
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
+var tasksNSP = io.of('/tasks')
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tasksRouter = require('./routes/tasks');
 
 var models = require('./models')
 
-var app = express();
-
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
-
-require('./socket_server/socket')(io)
+require('./socket_server/socket')(tasksNSP)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -55,3 +57,4 @@ models.sequelize.sync().then(() => {
 
 module.exports = app;
 module.exports = io;
+module.exports = tasksNSP;

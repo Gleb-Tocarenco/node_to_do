@@ -1,3 +1,4 @@
+
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
@@ -10,15 +11,17 @@ router.get('/', (request, response, next) => {
 
 router.post('/', (request, response, next) => {
     models.Tasks.create(request.body).then((task) => {
-        response.json({
+        let taskObject = {
             id: task.id, 
             title: task.title,
             done: task.done
-        })
-    }).catch((err) => {
-        response.statusCode = 400
-        response.json(err)
+        }
+        response.json(taskObject)
     })
+    // .catch((err) => {
+    //     response.statusCode = 400
+    //     response.json(err)
+    // })
 })
 
 
@@ -36,7 +39,6 @@ router.put('/:taskId', (request, response, next) => {
 })
 
 router.delete('/:taskId', (request, response, next) => {
-    console.log('herere')
     var taskId = parseInt(request.params['taskId']);
     models.Tasks.destroy({where: {
         id: taskId
@@ -46,4 +48,5 @@ router.delete('/:taskId', (request, response, next) => {
     })
 })
 
-module.exports = router;
+    
+module.exports = router

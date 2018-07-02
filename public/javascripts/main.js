@@ -36,8 +36,9 @@ function sendDataInput() {
     let data = {
         title: document.getElementById('task-input').value
     }
-    sendDataAjax(data, "POST", '/tasks/', (...args) => {
+    sendDataAjax(data, "POST", '/tasks/', (response) => {
         document.getElementById('task-input').value = ""
+        emit_task(response)
     })
 }
 
@@ -57,8 +58,9 @@ document.addEventListener('focusout', event => {
         event.target.closest('.task').classList.add('title-active')
         var taskId = event.target.closest('.task').getAttribute("data-id")
         var data = {title: event.target.value}
-        sendDataAjax(data, "PUT", "/tasks/" + taskId + '/', (...args) => {
+        sendDataAjax(data, "PUT", "/tasks/" + taskId + '/', (data) => {
             event.target.closest('.task').querySelector('.task-name').innerHTML = event.target.value
+            emit_task(data)
         })
     } 
     return
@@ -88,7 +90,7 @@ document.addEventListener('click', event => {
     } else if(event.target.matches('.task-delete')) {
         var taskId = event.target.closest('.task').getAttribute('data-id')
         getOrDeleteAjax('/tasks/' + taskId + '/', "DELETE", () => {
-            event.target.closest('.task').remove()
+            delete_task(taskId)
         })
     } else if(event.target.matches('.task-check') || event.target.matches('.task-uncheck')) {
         let task = event.target.closest('.task')
@@ -101,7 +103,9 @@ document.addEventListener('click', event => {
             task.classList.remove('task-done')
             task.classList.add('task-not-done')
         }
-        sendDataAjax(data, 'PUT', '/tasks/' + task.getAttribute('data-id') + '/')
+        sendDataAjax(data, 'PUT', '/tasks/' + task.getAttribute('data-id') + '/', (data) => {
+            emit_task(data)
+        })
     }
     return
 })
